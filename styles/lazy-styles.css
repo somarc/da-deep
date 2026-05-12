@@ -1,1 +1,79 @@
-/* add global styles that can be loaded post LCP here */
+/* global styles that can be loaded post LCP */
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus ring for accessibility */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* Default content sections — padding for readability */
+main .section .default-content-wrapper {
+  max-width: 800px;
+}
+
+main .section.full-width .default-content-wrapper {
+  max-width: unset;
+}
+
+/* Pre/code blocks in content */
+main pre {
+  background-color: var(--light-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  position: relative;
+  overflow-x: auto;
+}
+
+main pre::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  border-radius: 8px 8px 0 0;
+}
+
+/* Ordered and unordered lists */
+main ul,
+main ol {
+  padding-left: 1.6em;
+}
+
+main li {
+  margin-bottom: 0.4em;
+  color: var(--dark-color);
+}
+
+main li a:any-link {
+  font-weight: 500;
+}
+
+/* Horizontal rule */
+main hr {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 40px 0;
+}
+
+/* Blockquotes */
+main blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 20px;
+  color: var(--dark-color);
+  font-style: italic;
+  margin: 24px 0;
+}
+
+/* Selection color */
+::selection {
+  background-color: rgb(0 212 200 / 20%);
+  color: #fff;
+}
