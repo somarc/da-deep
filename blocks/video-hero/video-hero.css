@@ -55,6 +55,10 @@
   max-width: 800px;
   width: 100%;
   margin: 0 auto;
+  padding: 48px 56px;
+  /* Dark halo behind text — keeps video vivid around edges, text readable at center */
+  background: radial-gradient(ellipse 100% 100% at 50% 50%, rgb(7 13 26 / 72%) 15%, transparent 80%);
+  border-radius: 12px;
 }
 
 /* Text styles — mirrors static hero */
@@ -65,7 +69,7 @@
   font-size: var(--heading-font-size-xxl);
   line-height: 1.05;
   letter-spacing: -0.025em;
-  text-shadow: 0 2px 24px rgb(0 0 0 / 80%), 0 0 60px rgb(0 212 200 / 30%);
+  text-shadow: 0 2px 12px rgb(0 0 0 / 90%), 0 0 48px rgb(0 212 200 / 25%);
 }
 
 .video-hero h2,
@@ -77,14 +81,16 @@
   text-transform: uppercase;
   font-family: var(--mono-font-family);
   margin-bottom: 1.2em;
+  text-shadow: 0 1px 8px rgb(0 0 0 / 80%);
 }
 
 .video-hero p {
-  color: var(--dark-color);
+  color: #ddeeff;
   font-size: var(--body-font-size-m);
   max-width: 600px;
   margin: 0 auto 0.6em;
   line-height: 1.65;
+  text-shadow: 0 1px 6px rgb(0 0 0 / 80%);
 }
 
 .video-hero p.button-wrapper {
@@ -97,12 +103,13 @@
 
 .video-hero a.button:any-link {
   border-color: var(--accent);
-  background-color: transparent;
+  background-color: rgb(7 13 26 / 60%);
   color: var(--accent);
   font-size: var(--body-font-size-s);
   padding: 0.7em 1.8em;
   border-radius: 6px;
   letter-spacing: 0.02em;
+  text-shadow: none;
 }
 
 .video-hero a.button:hover {
