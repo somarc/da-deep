@@ -1,0 +1,32 @@
+.bus {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.bus table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.bus th,
+.bus td {
+  padding: 0.625rem 0.875rem;
+  text-align: left;
+  border: 1px solid var(--border-color, rgb(255 255 255 / 12%));
+  vertical-align: top;
+}
+
+.bus thead th {
+  background: var(--light-color, rgb(255 255 255 / 8%));
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.bus td:first-child {
+  font-weight: 600;
+}
+
+.bus tbody tr:hover td {
+  background: rgb(255 255 255 / 3%);
+}
