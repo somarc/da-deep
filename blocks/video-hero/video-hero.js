@@ -3,14 +3,15 @@ export default function decorate(block) {
 
   // Pull video src from any anchor pointing at a video file
   let videoSrc = null;
-  for (const row of rows) {
+  rows.some((row) => {
     const a = row.querySelector('a[href]');
     if (a && /\.(mp4|webm|ogg)(\?|#|$)/i.test(a.href)) {
       videoSrc = a.href;
       row.remove();
-      break;
+      return true;
     }
-  }
+    return false;
+  });
 
   // Flatten remaining rows into the content overlay div
   const content = document.createElement('div');

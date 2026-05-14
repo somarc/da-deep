@@ -77,3 +77,20 @@ main blockquote {
   background-color: rgb(0 212 200 / 20%);
   color: #fff;
 }
+
+/* Mermaid diagrams */
+pre.mermaid {
+  background: transparent;
+  border: none;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+pre.mermaid::before {
+  display: none;
+}
+
+pre.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
