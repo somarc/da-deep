@@ -13,7 +13,10 @@ const mermaidEls = [...document.querySelectorAll('pre > code')]
   .map((code) => {
     const pre = document.createElement('pre');
     pre.className = 'mermaid';
-    pre.textContent = code.textContent;
+    // Normalize Unicode dashes that mermaid's lexer rejects inside edge labels
+    pre.textContent = code.textContent
+      .replaceAll('—', '-')
+      .replaceAll('–', '-');
     code.parentElement.replaceWith(pre);
     return pre;
   });
