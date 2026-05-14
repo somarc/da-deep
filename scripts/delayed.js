@@ -19,7 +19,7 @@ const mermaidEls = [...document.querySelectorAll('pre > code')]
   });
 
 if (mermaidEls.length > 0) {
-  await loadScript('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js');
+  await loadScript('https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js');
   window.mermaid.initialize({ startOnLoad: false, theme: 'dark' });
   await window.mermaid.run({ nodes: mermaidEls });
 }
