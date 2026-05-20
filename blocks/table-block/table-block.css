@@ -1,0 +1,75 @@
+.table-block table,
+.surface table,
+.rule table,
+.symptom table,
+.flag table,
+.da-route-classify-verdict table,
+.failure table,
+.da-table-header table,
+.dimension table,
+.phase table,
+.criterion table,
+.service table,
+.property table,
+.field table,
+.state table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  overflow-wrap: anywhere;
+}
+
+.table-block th,
+.table-block td,
+.surface th,
+.surface td,
+.rule th,
+.rule td,
+.symptom th,
+.symptom td,
+.flag th,
+.flag td,
+.da-route-classify-verdict th,
+.da-route-classify-verdict td,
+.failure th,
+.failure td,
+.da-table-header th,
+.da-table-header td,
+.dimension th,
+.dimension td,
+.phase th,
+.phase td,
+.criterion th,
+.criterion td,
+.service th,
+.service td,
+.property th,
+.property td,
+.field th,
+.field td,
+.state th,
+.state td {
+  border: 1px solid rgb(255 255 255 / 16%);
+  padding: 12px 14px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.table-block th,
+.surface th,
+.rule th,
+.symptom th,
+.flag th,
+.da-route-classify-verdict th,
+.failure th,
+.da-table-header th,
+.dimension th,
+.phase th,
+.criterion th,
+.service th,
+.property th,
+.field th,
+.state th {
+  background: rgb(255 255 255 / 8%);
+  color: var(--heading-color);
+}
