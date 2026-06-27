@@ -1,0 +1,92 @@
+<body>
+  <header></header>
+  <main>
+    <div>
+      <h1 id="operator-gates">Operator gates</h1>
+      <p>Mutable checkpoints between inspect and mutate. <code>da-cli</code> is not a thin wrapper around admin APIs — it is a gated operator runtime: dry-run first, explicit <code>--commit</code> to cross the line, proof commands before promotion.</p>
+      <p>This page documents the episodes practitioners actually run — not every subcommand alphabetically.</p>
+    </div>
+    <div>
+      <h2 id="the-four-episodes">The four episodes</h2>
+      <table>
+        <thead>
+          <tr><th>Episode</th><th>Question</th><th>Representative commands</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Orient</strong></td>
+            <td>Where am I? What is safe to touch?</td>
+            <td><code>da --format json status</code>, <code>da resolve &lt;url&gt;</code>, <code>da route classify /path</code>, <code>da site doctor --agent</code></td>
+          </tr>
+          <tr>
+            <td><strong>Change</strong></td>
+            <td>What is the smallest write that serves intent?</td>
+            <td><code>da content put</code> (dry-run), <code>da content clone/status/diff/commit/push</code>, <code>da code sync</code></td>
+          </tr>
+          <tr>
+            <td><strong>Prove</strong></td>
+            <td>Did delivery actually change?</td>
+            <td><code>da preview explain /path</code>, <code>da audit full /path</code>, <code>da site freshness /</code></td>
+          </tr>
+          <tr>
+            <td><strong>Reconcile</strong></td>
+            <td>Does preview match source? Is live still honest?</td>
+            <td><code>da site reconcile</code>, <code>da publish unpublish</code>, pipeline <code>requires_approval</code> gates</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Agents and humans share the same episodes. Agents consume JSON envelopes with <code>next[]</code>; humans read the same commands in the terminal.</p>
+    </div>
+    <div>
+      <h2 id="gate-stack">Gate stack (default behavior)</h2>
+      <pre><code>inspect  →  dry-run  →  human/agent OK  →  --commit  →  prove  →  (maybe) publish
+</code></pre>
+      <p>Write operations (<code>content put</code>, <code>preview page</code>, <code>publish page</code>, <code>route clean</code>) default to <strong>dry-run</strong>. Root <code>--commit</code> is the mutable gate — not a nuisance flag, the contract.</p>
+      <pre><code># See the diff — nothing mutates
+da content put /cli/operator-gates.html operator-gates.html
+
+# Cross the gate
+da --commit content put /cli/operator-gates.html operator-gates.html
+
+# Prove delivery moved (preview bus, not source echo)
+da --commit preview page /cli/operator-gates
+da preview explain /cli/operator-gates --format json
+</code></pre>
+    </div>
+    <div>
+      <h2 id="pipeline-gates">Pipeline gates</h2>
+      <p>YAML pipelines compose primitives; <code>requires_approval: true</code> inserts a human checkpoint before irreversible steps (typical boundary: preview complete → approve → publish).</p>
+      <pre><code>da pipeline scaffold agent-validate
+da pipeline run validate.yaml          # write steps dry-run
+da --commit pipeline run validate.yaml # write steps execute
+</code></pre>
+      <p>See <a href="/cli/pipeline">da pipeline</a> for DAG format, parallel steps, and run-state persistence.</p>
+    </div>
+    <div>
+      <h2 id="field-signal-stale-preview">Field signal: stale preview</h2>
+      <p>Source can be correct while <code>.plain.html</code> is empty — classic failure mode on VIP migrations. Local <code>aem up</code> fixtures can mask a frozen preview bus.</p>
+      <pre><code>da content get /nav.html          # SOURCE — often correct
+curl …/nav.plain.html             # PREVIEW — may be empty
+da --commit preview page /nav     # fix is re-preview, not re-authoring
+</code></pre>
+      <p><code>preview explain</code> is the proof primitive: it compares authored shape against what Helix extracted.</p>
+    </div>
+    <div>
+      <h2 id="chameleon-contract">Chameleon contract (Helix-6 and beyond)</h2>
+      <p>Transport APIs may change; operator semantics should not. Stable surfaces:</p>
+      <ul>
+        <li>target resolution (<code>resolve</code>)</li>
+        <li>ownership (<code>route classify</code>)</li>
+        <li>proof (<code>preview explain</code>, <code>audit</code>, <code>freshness</code>)</li>
+        <li>gates (dry-run, <code>--commit</code>, pipeline approval)</li>
+      </ul>
+      <p>Adapters swap underneath. Episodes stay the same.</p>
+    </div>
+    <div>
+      <h2 id="related">Related</h2>
+      <p><a href="/cli/idiot">IDIOT method</a> — intent-driven observational development paired with these gates.</p>
+      <p><a href="/cli/pipeline">Pipeline runner</a> · <a href="/cli/preview-publish">Preview &amp; publish</a> · <a href="/cli/audit">Audit</a></p>
+    </div>
+  </main>
+  <footer></footer>
+</body>

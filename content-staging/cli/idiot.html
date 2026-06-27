@@ -1,0 +1,90 @@
+<body>
+  <header></header>
+  <main>
+    <div>
+      <h1 id="idiot-method">IDIOT method</h1>
+      <p><strong>I</strong>ntent <strong>D</strong>riven <strong>I</strong>terative <strong>O</strong>bservational <strong>D</strong>evelopment — the acronym is the joke; the loop is the method.</p>
+      <pre><code>INTENT → smallest change → RUN/OBSERVE → learn → repeat
+</code></pre>
+      <p>Pair with <a href="https://github.com/DietrichGebert/ponytail">Ponytail</a> for <em>how little code</em> each pass needs. <strong>IDIOT picks the target; Ponytail loads the arrow.</strong> <code>da-cli</code> is the instrument that makes observation executable.</p>
+      <p>Open source: <a href="https://github.com/somarc/idiot">github.com/somarc/idiot</a></p>
+    </div>
+    <div>
+      <h2 id="the-five-letters">The five letters</h2>
+      <div class="cards">
+        <div>
+          <div>
+            <h3 id="intent">Intent</h3>
+            <p>State what you should <em>see</em> or <em>feel</em> — in falsifiable terms. “Footer confusing” becomes “user can name what × does while watching 1h/day spin.”</p>
+          </div>
+        </div>
+        <div>
+          <div>
+            <h3 id="driven">Driven</h3>
+            <p>Every line in the pass serves that intent. No drive-by refactors. Scope follows observation, not architecture tours.</p>
+          </div>
+        </div>
+        <div>
+          <div>
+            <h3 id="iterative">Iterative</h3>
+            <p>One slice per pass: one gate, one chip, one footer group, one API field. Commit when the observation target moves.</p>
+          </div>
+        </div>
+        <div>
+          <div>
+            <h3 id="observational">Observational</h3>
+            <p>Run the app, API, or preview URL yourself. Green builds and diff review are supporting evidence — not substitutes for watching delivery.</p>
+          </div>
+        </div>
+        <div>
+          <div>
+            <h3 id="development">Development</h3>
+            <p>Ship real changes, then observe, then report. IDIOT is not planning-only mode.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2 id="da-cli-as-observation-runtime">da-cli as observation runtime</h2>
+      <p>On VIP migrations, the highest-value observations are delivery truths:</p>
+      <ul>
+        <li>source vs <code>.plain.html</code> (stale preview)</li>
+        <li>preview vs live freshness lag</li>
+        <li>route ownership before delete</li>
+        <li>silent fallbacks on dated authoritative rows</li>
+      </ul>
+      <pre><code>da --format json status
+da site doctor --agent --format json
+da preview explain /index --format json
+da site freshness / --format json
+</code></pre>
+      <p>JSON envelopes return <code>ok</code>, <code>warnings</code>, and <code>next[]</code> — an agent handoff that encodes operator judgment.</p>
+    </div>
+    <div>
+      <h2 id="example-pass-on-da-deep">Example pass (this site)</h2>
+      <p><strong>Intent:</strong> Document operator gates and IDIOT on da-deep without breaking CLI index navigation.</p>
+      <p><strong>Observe:</strong> CLI reference covers subcommands; episodes are implicit. Net-new docs should match existing <code>/cli/*</code> voice.</p>
+      <p><strong>Ship:</strong> Add <code>/cli/operator-gates</code> and <code>/cli/idiot</code>; link from CLI index; dry-run put → commit → preview explain.</p>
+      <pre><code>da content put /cli/idiot.html idiot.html
+da --commit content put /cli/idiot.html idiot.html
+da --commit preview page /cli/idiot
+da preview explain /cli/idiot --format json
+</code></pre>
+    </div>
+    <div>
+      <h2 id="anti-patterns">Anti-patterns (actual idiot moves)</h2>
+      <ul>
+        <li>Spec-first implementation with no preview until the end</li>
+        <li>Trusting <code>aem up</code> when the question is about <code>aem.page</code></li>
+        <li>Big-bang rewrites when one labeled group answers intent</li>
+        <li>Three paragraphs where one <code>preview explain</code> would settle it</li>
+      </ul>
+    </div>
+    <div>
+      <h2 id="related">Related</h2>
+      <p><a href="/cli/operator-gates">Operator gates</a> · <a href="/cli/pipeline">Pipeline</a> · <a href="/cli/audit">Audit</a></p>
+      <p>Skill repo: <a href="https://github.com/somarc/idiot">somarc/idiot</a> · CLI repo: <a href="https://github.com/somarc/da-cli">somarc/da-cli</a></p>
+    </div>
+  </main>
+  <footer></footer>
+</body>
