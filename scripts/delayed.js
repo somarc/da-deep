@@ -19,9 +19,15 @@ const MERMAID_STATEMENT_TOKENS = [
 
 const MERMAID_EDGE = /(--?>>?|--?[)x]|<<-->>|::)/;
 
+function isFlowchartNodeLine(line) {
+  // Indented node defs must not be merged into prior subgraph headers.
+  return /^\s+[A-Za-z][\w$]*\s*(\[\[|\[|\()/.test(line);
+}
+
 function isMermaidStatement(line) {
   const trimmed = line.trim();
   if (trimmed === '') return true;
+  if (isFlowchartNodeLine(line)) return true;
   const firstToken = trimmed.split(/[\s:]/)[0];
   if (MERMAID_STATEMENT_TOKENS.includes(firstToken)) return true;
   const colon = trimmed.indexOf(':');
