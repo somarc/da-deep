@@ -34,8 +34,12 @@ function isMermaidStatement(line) {
 // content frequently wraps long labels across lines. Re-join those wrapped lines
 // into the preceding statement with an HTML break, and normalize en/em dashes
 // which mermaid 10 rejects outside of quoted labels.
+// DA-authored diagrams often use literal "\n" inside node labels — convert those too.
 function normalizeMermaid(text) {
-  const dashFixed = text.replaceAll('\u2014', '-').replaceAll('\u2013', '-');
+  const dashFixed = text
+    .replaceAll('\u2014', '-')
+    .replaceAll('\u2013', '-')
+    .replace(/\\n/g, '<br/>');
   const merged = [];
   dashFixed.split('\n').forEach((line) => {
     if (merged.length && line.trim() !== '' && !isMermaidStatement(line)) {
