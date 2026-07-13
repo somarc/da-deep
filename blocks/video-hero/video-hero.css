@@ -1,160 +1,220 @@
+/* Cinematic full-bleed hero — eds-cinematic-hero contract */
+
 .video-hero-container .video-hero-wrapper {
   max-width: unset;
   padding: 0;
-}
-
-/* Fallback gradient matches the static hero — video sits on top of it */
-.video-hero {
-  position: relative;
-  overflow: hidden;
-  padding: 100px 24px 80px;
-  min-height: 560px;
-  background: radial-gradient(ellipse 110% 70% at 50% 20%, #0a2140 0%, #07101f 45%, var(--background-color) 75%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-/* Background video */
-.video-hero video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-}
-
-/* Thin scrim — just enough to ground the text; let the video breathe */
-.video-hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgb(7 13 26 / 25%);
-  z-index: 1;
-  pointer-events: none;
-}
-
-/* Grid overlay — same aesthetic as static hero */
-.video-hero::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgb(0 212 200 / 4%) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(0 212 200 / 4%) 1px, transparent 1px);
-  background-size: 48px 48px;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.video-hero-content {
-  position: relative;
-  z-index: 3;
-  max-width: 800px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 48px 56px;
-
-  /* Dark halo behind text — keeps video vivid around edges, text readable at center */
-  background: radial-gradient(ellipse 100% 100% at 50% 50%, rgb(7 13 26 / 72%) 15%, transparent 80%);
-  border-radius: 12px;
-}
-
-/* Text styles — mirrors static hero */
-.video-hero h1 {
-  max-width: 780px;
-  margin: 0 auto 0.4em;
-  color: #fff;
-  font-size: var(--heading-font-size-xxl);
-  line-height: 1.05;
-  letter-spacing: -0.025em;
-  text-shadow: 0 2px 12px rgb(0 0 0 / 90%), 0 0 48px rgb(0 212 200 / 25%);
-}
-
-.video-hero h2,
-.video-hero h3 {
-  color: var(--accent);
-  font-size: var(--heading-font-size-m);
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-family: var(--mono-font-family);
-  margin-bottom: 1.2em;
-  text-shadow: 0 1px 8px rgb(0 0 0 / 80%);
-}
-
-.video-hero p {
-  color: #def;
-  font-size: var(--body-font-size-m);
-  max-width: 600px;
-  margin: 0 auto 0.6em;
-  line-height: 1.65;
-  text-shadow: 0 1px 6px rgb(0 0 0 / 80%);
-}
-
-.video-hero p.button-wrapper {
-  margin-top: 2em;
-  gap: 12px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.video-hero a.button:any-link {
-  border-color: var(--accent);
-  background-color: rgb(7 13 26 / 60%);
-  color: var(--accent);
-  font-size: var(--body-font-size-s);
-  padding: 0.7em 1.8em;
-  border-radius: 6px;
-  letter-spacing: 0.02em;
-  text-shadow: none;
-}
-
-.video-hero a.button:hover {
-  background-color: var(--accent);
-  color: var(--background-color);
-  box-shadow: 0 0 32px rgb(0 212 200 / 40%);
-  text-decoration: none;
-}
-
-.video-hero a.button.primary:any-link {
-  background-color: var(--accent);
-  color: var(--background-color);
-  font-weight: 700;
-}
-
-.video-hero a.button.primary:hover {
-  box-shadow: 0 0 32px rgb(0 212 200 / 50%);
-}
-
-/* Bottom fade to blend into page */
-.video-hero-container::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 80px;
-  background: linear-gradient(to bottom, transparent, var(--background-color));
-  pointer-events: none;
-  z-index: 4;
 }
 
 .video-hero-container {
   position: relative;
 }
 
+/* Full-viewport stage with always-on field fallback */
+.video-hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: calc(100svh - var(--nav-height, 64px));
+  padding: clamp(4.5rem, 14vh, 8rem) clamp(1.25rem, 4vw, 3rem) clamp(5rem, 12vh, 7rem);
+  background:
+    radial-gradient(ellipse 120% 80% at 50% 18%, #0c2a4d 0%, #07101f 42%, var(--background-color) 78%);
+}
+
+/* Poster still (LCP-friendly layer) */
+.video-hero .video-hero-poster,
+.video-hero .video-hero-poster img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Background video sits above poster */
+.video-hero video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Global scrim — media breathes, type gets contrast */
+.video-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 45%, rgb(7 13 26 / 15%) 0%, rgb(7 13 26 / 42%) 70%, rgb(7 13 26 / 55%) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Soft diagnostic grid — very low opacity texture */
+.video-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgb(0 212 200 / 3.5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(0 212 200 / 3.5%) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 75%);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.video-hero-content {
+  position: relative;
+  z-index: 4;
+  max-width: 46rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: clamp(1.75rem, 4vw, 3rem) clamp(1.25rem, 4vw, 3.5rem);
+
+  /* Local readability halo — stronger at center, open to media at edges */
+  background: radial-gradient(
+    ellipse 100% 95% at 50% 48%,
+    rgb(7 13 26 / 78%) 8%,
+    rgb(7 13 26 / 45%) 48%,
+    transparent 76%
+  );
+  border-radius: 16px;
+}
+
+.video-hero h1 {
+  max-width: 18ch;
+  margin: 0 auto 0.45em;
+  color: #fff;
+  font-size: var(--heading-font-size-xxl);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  text-shadow:
+    0 2px 16px rgb(0 0 0 / 90%),
+    0 0 56px rgb(0 212 200 / 22%);
+}
+
+.video-hero h2,
+.video-hero h3 {
+  color: var(--accent);
+  font-size: var(--body-font-size-s);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-family: var(--mono-font-family);
+  margin: 0 0 1.15em;
+  text-shadow: 0 1px 10px rgb(0 0 0 / 80%);
+}
+
+.video-hero p {
+  color: #d5e8f8;
+  font-size: var(--body-font-size-m);
+  max-width: 38rem;
+  margin: 0 auto 0.65em;
+  line-height: 1.65;
+  text-shadow: 0 1px 8px rgb(0 0 0 / 75%);
+}
+
+.video-hero p:has(code),
+.video-hero p code {
+  font-family: var(--mono-font-family);
+  font-size: 0.92em;
+}
+
+.video-hero p.button-wrapper,
+.video-hero-content > p:last-of-type:has(a) {
+  margin-top: 2rem;
+  margin-bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 0.85rem;
+  justify-content: center;
+}
+
+.video-hero a.button:any-link {
+  border: 1px solid var(--accent);
+  background-color: rgb(7 13 26 / 55%);
+  color: var(--accent);
+  font-size: var(--body-font-size-s);
+  padding: 0.75em 1.65em;
+  border-radius: 8px;
+  letter-spacing: 0.02em;
+  text-shadow: none;
+  backdrop-filter: blur(6px);
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.video-hero a.button:hover {
+  background-color: var(--accent);
+  color: var(--background-color);
+  box-shadow: 0 0 36px rgb(0 212 200 / 38%);
+  text-decoration: none;
+}
+
+.video-hero a.button.primary:any-link,
+.video-hero p.button-wrapper a.button:first-child:any-link,
+.video-hero-content > p:last-of-type:has(a) a:first-child:any-link {
+  background-color: var(--accent);
+  color: var(--background-color);
+  font-weight: 700;
+  border-color: var(--accent);
+}
+
+.video-hero a.button.primary:hover,
+.video-hero p.button-wrapper a.button:first-child:hover,
+.video-hero-content > p:last-of-type:has(a) a:first-child:hover {
+  box-shadow: 0 0 40px rgb(0 212 200 / 48%);
+}
+
+/* Bottom fade into page field */
+.video-hero-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: clamp(4rem, 14vh, 7.5rem);
+  background: linear-gradient(to bottom, transparent, var(--background-color));
+  pointer-events: none;
+  z-index: 5;
+}
+
 @media (width >= 900px) {
   .video-hero {
-    padding: 130px 48px 100px;
-    min-height: 620px;
+    padding: clamp(5rem, 16vh, 9rem) 3rem clamp(5.5rem, 14vh, 8rem);
+  }
+
+  .video-hero h1 {
+    max-width: 16ch;
   }
 }
 
-/* Reduced motion: hide video, show gradient fallback */
+@media (width <= 600px) {
+  .video-hero {
+    min-height: calc(100svh - var(--nav-height, 64px));
+    align-items: flex-end;
+    padding-bottom: clamp(4.5rem, 18vh, 6.5rem);
+  }
+
+  .video-hero-content {
+    padding: 1.25rem 0.85rem 1.5rem;
+  }
+
+  .video-hero h1 {
+    max-width: none;
+    font-size: clamp(2rem, 9vw, 2.75rem);
+  }
+}
+
+/* Reduced motion: poster/gradient only — no video */
 @media (prefers-reduced-motion: reduce) {
   .video-hero video {
     display: none;

@@ -1,19 +1,34 @@
+/**
+ * Cinematic full-bleed video hero.
+ * Authoring: optional video link row, optional poster img row, then copy.
+ * @see eds-cinematic-hero skill
+ */
 export default function decorate(block) {
   const rows = [...block.children];
 
-  // Pull video src from any anchor pointing at a video file
   let videoSrc = null;
-  rows.some((row) => {
-    const a = row.querySelector('a[href]');
-    if (a && /\.(mp4|webm|ogg)(\?|#|$)/i.test(a.href)) {
-      videoSrc = a.href;
-      row.remove();
-      return true;
+  let posterImg = null;
+
+  rows.forEach((row) => {
+    if (!videoSrc) {
+      const a = row.querySelector('a[href]');
+      if (a && /\.(mp4|webm|ogg)(\?|#|$)/i.test(a.href)) {
+        videoSrc = a.href;
+        row.remove();
+        return;
+      }
     }
-    return false;
+
+    if (!posterImg) {
+      const img = row.querySelector('img');
+      const onlyMedia = img && !row.querySelector('h1, h2, h3, h4, h5, h6, a.button');
+      if (onlyMedia) {
+        posterImg = img;
+        row.remove();
+      }
+    }
   });
 
-  // Flatten remaining rows into the content overlay div
   const content = document.createElement('div');
   content.className = 'video-hero-content';
   [...block.children].forEach((row) => {
@@ -24,6 +39,19 @@ export default function decorate(block) {
 
   block.innerHTML = '';
 
+  if (posterImg) {
+    const poster = document.createElement('div');
+    poster.className = 'video-hero-poster';
+    poster.setAttribute('aria-hidden', 'true');
+    posterImg.removeAttribute('loading');
+    posterImg.fetchPriority = 'high';
+    posterImg.decoding = 'async';
+    posterImg.alt = posterImg.alt || '';
+    poster.appendChild(posterImg);
+    block.appendChild(poster);
+    block.classList.add('has-poster');
+  }
+
   if (videoSrc) {
     const video = document.createElement('video');
     video.autoplay = true;
@@ -31,13 +59,16 @@ export default function decorate(block) {
     video.loop = true;
     video.playsInline = true;
     video.setAttribute('aria-hidden', 'true');
+    video.setAttribute('playsinline', '');
+    if (posterImg?.src) video.poster = posterImg.src;
     const source = document.createElement('source');
     source.src = videoSrc;
-    source.type = 'video/mp4';
+    source.type = videoSrc.includes('.webm') ? 'video/webm' : 'video/mp4';
     video.appendChild(source);
     block.appendChild(video);
     block.classList.add('has-video');
   }
 
   block.appendChild(content);
+  block.classList.add('is-cinematic');
 }
