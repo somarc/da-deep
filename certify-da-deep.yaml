@@ -16,9 +16,9 @@ pipeline:
     repo: da-deep
   steps:
     - id: upload-content
-      command: "content put-tree $DA_CONTENT_ROOT"
+      command: "content put-tree $DA_CONTENT_ROOT --yes"
     - id: preview-tree
-      command: "preview tree / --verify"
+      command: "preview tree / --verify --yes"
       depends_on: [upload-content]
     - id: audit-index
       command: "audit full /index --format json"
