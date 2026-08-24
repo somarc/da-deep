@@ -1,4 +1,5 @@
 const HEADERS_BY_BLOCK = {
+  capability: ['Capability', 'H5', 'H6', 'Status', 'Evidence'],
   criterion: ['Criterion', 'Sidekick Extension', 'EDS Plugin'],
   'da-route-classify-verdict': ['da route classify Verdict', 'Meaning', 'What Delivers the Page', 'Expected?', 'Action If Unexpected'],
   'da-table-header': ['DA Table Header', 'Block Class in .plain.html', 'File Path Loaded'],
@@ -8,6 +9,7 @@ const HEADERS_BY_BLOCK = {
   flag: ['Flag', 'Values', 'Description'],
   phase: ['Phase', 'Fires When', 'Blocks Page Render?', 'Use For'],
   property: ['Property', 'Extracted From', 'Always Present?', 'type Annotation', 'Notes'],
+  route: ['Route', 'Methods', 'Semantics', 'Evidence'],
   rule: ['Rule', 'Rationale'],
   service: ['Service', 'Role', 'Owns Durable State?', 'Interface', 'Canonical Endpoint', 'Access Model', 'Inspect With'],
   state: ['State', 'Where Stored', 'Visible At', 'Triggered By', 'Inspect With'],
