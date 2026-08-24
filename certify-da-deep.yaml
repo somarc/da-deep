@@ -1,0 +1,37 @@
+# Certification pipeline for the da-deep primer site.
+#
+#   da --org somarc --repo da-deep pipeline run certify-da-deep.yaml --dry-run --format json
+#   da --org somarc --repo da-deep --commit pipeline run certify-da-deep.yaml
+#
+# Every step is reviewed da-cli surface: upload the authored source tree from
+# the operational workspace, preview every HTML source with verification,
+# audit the flagship pages, publish the site, then prove freshness at both
+# boundaries. Root --commit is the single mutation gate for the whole run.
+# The pipeline run itself journals exactly one QMD receipt when the ambient
+# qmdJournal toggle is on; its steps never inherit journaling.
+pipeline:
+  name: certify-da-deep
+  context:
+    org: somarc
+    repo: da-deep
+  steps:
+    - id: upload-content
+      command: "content put-tree $DA_CONTENT_ROOT"
+    - id: preview-tree
+      command: "preview tree / --verify"
+      depends_on: [upload-content]
+    - id: audit-index
+      command: "audit full /index --format json"
+      depends_on: [preview-tree]
+    - id: audit-h6
+      command: "audit full /lenses/h6-source-bus --format json"
+      depends_on: [preview-tree]
+    - id: audit-truths
+      command: "audit full /notes/deep-truths --format json"
+      depends_on: [preview-tree]
+    - id: publish-all
+      command: "publish pages / --yes"
+      depends_on: [audit-index, audit-h6, audit-truths]
+    - id: freshness
+      command: "site freshness / --format json"
+      depends_on: [publish-all]
