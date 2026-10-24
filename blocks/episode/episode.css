@@ -1,0 +1,67 @@
+/* episode: ordered operator episodes — name / question / representative commands */
+.episode {
+  counter-reset: episode;
+  display: grid;
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.episode .episode-step {
+  counter-increment: episode;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+  padding: 16px 20px;
+  border: 1px solid var(--border-color);
+  border-inline-start: 3px solid var(--accent);
+  border-radius: 8px;
+  background-color: var(--surface-color);
+}
+
+/* authored cells may arrive as bare text or wrapped in <p> (DA Canvas mounts editors there) */
+.episode .episode-step p {
+  margin: 0;
+}
+
+.episode .episode-name {
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-s);
+  line-height: 1.2;
+  color: #e8f4ff;
+}
+
+/* decorative step index, hidden from assistive tech (the list role conveys order) */
+.episode .episode-name::before {
+  content: counter(episode, decimal-leading-zero) / "";
+  display: block;
+  margin-block-end: 4px;
+  font-family: var(--mono-font-family);
+  font-size: var(--body-font-size-xs);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.episode .episode-question {
+  font-size: var(--body-font-size-s);
+  line-height: 1.5;
+}
+
+.episode .episode-commands {
+  font-size: var(--body-font-size-xs);
+  line-height: 2;
+  overflow-wrap: anywhere;
+}
+
+.episode .episode-commands code {
+  font-size: inherit;
+}
+
+@media (width >= 900px) {
+  .episode .episode-step {
+    grid-template-columns: minmax(0, 10rem) minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: 24px;
+    align-items: start;
+    padding: 20px 24px;
+  }
+}
